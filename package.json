@@ -1,0 +1,16 @@
+{
+  "name": "junction-pubsub",
+  "version": "0.0.0",
+  "description": "PubSub development framework for Junction.",
+  "author": "Jared Hanson <jaredhanson@gmail.com> (http://www.jaredhanson.net/)",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jaredhanson/junction-pubsub.git"
+  },
+  "main": "./lib/junction-pubsub",
+  "dependencies": {
+    "junction": ">= 0.1.0"
+  },
+  "engines": { "node": ">= 0.4.0" },
+  "keywords": ["junction", "pubsub", "xmpp", "jabber"]
+}
