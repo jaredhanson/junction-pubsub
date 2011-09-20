@@ -12,5 +12,5 @@
     "junction": ">= 0.1.0"
   },
   "engines": { "node": ">= 0.4.0" },
-  "keywords": ["junction", "pubsub", "xmpp", "jabber"]
+  "keywords": ["junction", "pubsub", "xmpp", "jabber", "xep0060"]
 }
