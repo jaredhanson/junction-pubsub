@@ -6,18 +6,18 @@ var StanzaError = require('junction').StanzaError;
 var PubSub = require('junction-pubsub/elements/pubsub');
 var Subscribe = require('junction-pubsub/elements/subscribe');
 var Unsubscribe = require('junction-pubsub/elements/unsubscribe');
-var subscribe = require('junction-pubsub/middleware/subscribe');
+var subscribeParser = require('junction-pubsub/middleware/subscribeParser');
 
 
-vows.describe('subscribe').addBatch({
+vows.describe('subscribeParser').addBatch({
 
   'middleware': {
     topic: function() {
-      return subscribe();
+      return subscribeParser();
     },
     
     'when handling a subscribe request': {
-      topic: function(subscribe) {
+      topic: function(subscribeParser) {
         var self = this;
         var iq = new IQ('pubsub.shakespeare.lit', 'francisco@denmark.lit/barracks', 'set');
         var pubsubEl = new PubSub();
@@ -30,7 +30,7 @@ vows.describe('subscribe').addBatch({
           self.callback(err, iq);
         }
         process.nextTick(function () {
-          subscribe(iq, next)
+          subscribeParser(iq, next)
         });
       },
       
@@ -46,7 +46,7 @@ vows.describe('subscribe').addBatch({
     },
     
     'when handling a non-subscribe request': {
-      topic: function(subscribe) {
+      topic: function(subscribeParser) {
         var self = this;
         var iq = new IQ('pubsub.shakespeare.lit', 'francisco@denmark.lit/barracks', 'set');
         var pubsubEl = new PubSub();
@@ -59,7 +59,7 @@ vows.describe('subscribe').addBatch({
           self.callback(err, iq);
         }
         process.nextTick(function () {
-          subscribe(iq, next)
+          subscribeParser(iq, next)
         });
       },
       
@@ -74,8 +74,8 @@ vows.describe('subscribe').addBatch({
       },
     },
     
-    'when handling a non-IQ-set subscribe request': {
-      topic: function(subscribe) {
+    'when handling a IQ-get subscribe request': {
+      topic: function(subscribeParser) {
         var self = this;
         var iq = new IQ('pubsub.shakespeare.lit', 'francisco@denmark.lit/barracks', 'get');
         var pubsubEl = new PubSub();
@@ -88,7 +88,7 @@ vows.describe('subscribe').addBatch({
           self.callback(err, iq);
         }
         process.nextTick(function () {
-          subscribe(iq, next)
+          subscribeParser(iq, next)
         });
       },
       
@@ -100,7 +100,7 @@ vows.describe('subscribe').addBatch({
     },
     
     'when handling a subscribe request without a jid attribute': {
-      topic: function(subscribe) {
+      topic: function(subscribeParser) {
         var self = this;
         var iq = new IQ('pubsub.shakespeare.lit', 'francisco@denmark.lit/barracks', 'get');
         var pubsubEl = new PubSub();
@@ -113,7 +113,7 @@ vows.describe('subscribe').addBatch({
           self.callback(err, iq);
         }
         process.nextTick(function () {
-          subscribe(iq, next)
+          subscribeParser(iq, next)
         });
       },
       
@@ -125,7 +125,7 @@ vows.describe('subscribe').addBatch({
     },
     
     'when handling an IQ stanza that is not a publish-subscribe stanza': {
-      topic: function(subscribe) {
+      topic: function(subscribeParser) {
         var self = this;
         var iq = new IQ('romeo@example.net', 'juliet@example.com', 'get');
         iq = iq.toXML();
@@ -135,7 +135,7 @@ vows.describe('subscribe').addBatch({
           self.callback(err, iq);
         }
         process.nextTick(function () {
-          subscribe(iq, next)
+          subscribeParser(iq, next)
         });
       },
       
