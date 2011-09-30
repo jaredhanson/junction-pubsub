@@ -40,6 +40,69 @@ vows.describe('publishParser').addBatch({
       'should set node property' : function(err, stanza) {
         assert.equal(stanza.node, 'princely_musings');
       },
+      'should not set itemID property' : function(err, stanza) {
+        assert.isUndefined(stanza.itemID);
+      },
+    },
+    
+    'when handling a publish request with an item without an ID': {
+      topic: function(publishParser) {
+        var self = this;
+        var iq = new IQ('pubsub.shakespeare.lit', 'hamlet@denmark.lit/blogbot', 'set');
+        var pubsubEl = new PubSub();
+        var publishEl = new Publish('princely_musings');
+        publishEl.c('item');
+        iq.c(pubsubEl).c(publishEl);
+        iq = iq.toXML();
+        iq.type = iq.attrs.type;
+        
+        function next(err) {
+          self.callback(err, iq);
+        }
+        process.nextTick(function () {
+          publishParser(iq, next)
+        });
+      },
+      
+      'should set action property' : function(err, stanza) {
+        assert.equal(stanza.action, 'publish');
+      },
+      'should set node property' : function(err, stanza) {
+        assert.equal(stanza.node, 'princely_musings');
+      },
+      'should not set itemID property' : function(err, stanza) {
+        assert.isUndefined(stanza.itemID);
+      },
+    },
+    
+    'when handling a publish request with an item with an ID': {
+      topic: function(publishParser) {
+        var self = this;
+        var iq = new IQ('pubsub.shakespeare.lit', 'hamlet@denmark.lit/blogbot', 'set');
+        var pubsubEl = new PubSub();
+        var publishEl = new Publish('princely_musings');
+        publishEl.c('item', { id: 'bnd81g37d61f49fgn581' });
+        iq.c(pubsubEl).c(publishEl);
+        iq = iq.toXML();
+        iq.type = iq.attrs.type;
+        
+        function next(err) {
+          self.callback(err, iq);
+        }
+        process.nextTick(function () {
+          publishParser(iq, next)
+        });
+      },
+      
+      'should set action property' : function(err, stanza) {
+        assert.equal(stanza.action, 'publish');
+      },
+      'should set node property' : function(err, stanza) {
+        assert.equal(stanza.node, 'princely_musings');
+      },
+      'should set itemID property' : function(err, stanza) {
+        assert.equal(stanza.itemID, 'bnd81g37d61f49fgn581');
+      },
     },
     
     'when handling a non-publish request': {
