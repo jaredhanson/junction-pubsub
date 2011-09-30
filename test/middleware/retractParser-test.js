@@ -44,6 +44,76 @@ vows.describe('retractParser').addBatch({
       'should set itemID property' : function(err, stanza) {
         assert.equal(stanza.itemID, 'bnd81g37d61f49fgn581');
       },
+      'should set notify property to false' : function(err, stanza) {
+        assert.isFalse(stanza.notify);
+      },
+    },
+    
+    'when handling a retract request with notify set to true': {
+      topic: function(retractParser) {
+        var self = this;
+        var iq = new IQ('pubsub.shakespeare.lit', 'hamlet@denmark.lit/elsinore', 'set');
+        var pubsubEl = new PubSub();
+        var retractEl = new Retract('princely_musings');
+        retractEl.notify = true;
+        retractEl.c('item', { id: 'bnd81g37d61f49fgn581' });
+        iq.c(pubsubEl).c(retractEl);
+        iq = iq.toXML();
+        iq.type = iq.attrs.type;
+        
+        function next(err) {
+          self.callback(err, iq);
+        }
+        process.nextTick(function () {
+          retractParser(iq, next)
+        });
+      },
+      
+      'should set action property' : function(err, stanza) {
+        assert.equal(stanza.action, 'retract');
+      },
+      'should set node property' : function(err, stanza) {
+        assert.equal(stanza.node, 'princely_musings');
+      },
+      'should set itemID property' : function(err, stanza) {
+        assert.equal(stanza.itemID, 'bnd81g37d61f49fgn581');
+      },
+      'should set notify property to true' : function(err, stanza) {
+        assert.isTrue(stanza.notify);
+      },
+    },
+    
+    'when handling a retract request with notify set to 1': {
+      topic: function(retractParser) {
+        var self = this;
+        var iq = new IQ('pubsub.shakespeare.lit', 'hamlet@denmark.lit/elsinore', 'set');
+        var pubsubEl = new PubSub();
+        pubsubEl.c('retract', { node: 'princely_musings', notify: '1' })
+                .c('item', { id: 'bnd81g37d61f49fgn581' });
+        iq.c(pubsubEl);
+        iq = iq.toXML();
+        iq.type = iq.attrs.type;
+        
+        function next(err) {
+          self.callback(err, iq);
+        }
+        process.nextTick(function () {
+          retractParser(iq, next)
+        });
+      },
+      
+      'should set action property' : function(err, stanza) {
+        assert.equal(stanza.action, 'retract');
+      },
+      'should set node property' : function(err, stanza) {
+        assert.equal(stanza.node, 'princely_musings');
+      },
+      'should set itemID property' : function(err, stanza) {
+        assert.equal(stanza.itemID, 'bnd81g37d61f49fgn581');
+      },
+      'should set notify property to true' : function(err, stanza) {
+        assert.isTrue(stanza.notify);
+      },
     },
     
     'when handling a non-retract request': {
