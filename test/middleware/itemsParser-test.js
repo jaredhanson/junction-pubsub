@@ -40,6 +40,40 @@ vows.describe('itemsParser').addBatch({
       'should set node property' : function(err, stanza) {
         assert.equal(stanza.node, 'princely_musings');
       },
+      'should not set maxItems property' : function(err, stanza) {
+        assert.isUndefined(stanza.maxItems);
+      },
+    },
+    
+    'when handling an items request with max_items': {
+      topic: function(itemsParser) {
+        var self = this;
+        var iq = new IQ('pubsub.shakespeare.lit', 'francisco@denmark.lit/barracks', 'get');
+        var pubsubEl = new PubSub();
+        var itemsEl = new Items('princely_musings');
+        itemsEl.maxItems = 2;
+        iq.c(pubsubEl).c(itemsEl);
+        iq = iq.toXML();
+        iq.type = iq.attrs.type;
+        
+        function next(err) {
+          self.callback(err, iq);
+        }
+        process.nextTick(function () {
+          itemsParser(iq, next)
+        });
+      },
+      
+      'should set action property' : function(err, stanza) {
+        assert.equal(stanza.action, 'items');
+      },
+      'should set node property' : function(err, stanza) {
+        assert.equal(stanza.node, 'princely_musings');
+      },
+      'should set maxItems property' : function(err, stanza) {
+        assert.isNumber(stanza.maxItems);
+        assert.equal(stanza.maxItems, 2);
+      },
     },
     
     'when handling a non-items request': {
