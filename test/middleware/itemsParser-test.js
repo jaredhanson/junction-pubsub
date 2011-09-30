@@ -127,6 +127,31 @@ vows.describe('itemsParser').addBatch({
       },
     },
     
+    'when handling an items request without a node attribute': {
+      topic: function(itemsParser) {
+        var self = this;
+        var iq = new IQ('pubsub.shakespeare.lit', 'francisco@denmark.lit/barracks', 'get');
+        var pubsubEl = new PubSub();
+        var itemsEl = new Items();
+        iq.c(pubsubEl).c(itemsEl);
+        iq = iq.toXML();
+        iq.type = iq.attrs.type;
+        
+        function next(err) {
+          self.callback(err, iq);
+        }
+        process.nextTick(function () {
+          itemsParser(iq, next)
+        });
+      },
+      
+      'should indicate an error' : function(err, stanza) {
+        assert.instanceOf(err, StanzaError);
+        assert.equal(err.type, 'modify');
+        assert.equal(err.condition, 'bad-request');
+      },
+    },
+    
     'when handling an items result': {
       topic: function(itemsParser) {
         var self = this;
