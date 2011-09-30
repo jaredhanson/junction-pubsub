@@ -33,7 +33,7 @@ vows.describe('Unsubscribe').addBatch({
       assert.equal(unsubscribe.jid, 'francisco@denmark.lit');
     },
     'should have a subscription ID': function (unsubscribe) {
-      assert.equal(unsubscribe.subid, '123-456');
+      assert.equal(unsubscribe.subID, '123-456');
     },
     'should build correct XML string': function(unsubscribe) {
       assert.equal(unsubscribe.toXML().toString(), '<unsubscribe node="princely_musings" jid="francisco@denmark.lit" subid="123-456" xmlns="http://jabber.org/protocol/pubsub"/>');

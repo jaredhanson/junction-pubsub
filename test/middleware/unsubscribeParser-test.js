@@ -43,8 +43,8 @@ vows.describe('unsubscribeParser').addBatch({
       'should set a jid property' : function(err, stanza) {
         assert.equal(stanza.jid, 'francisco@denmark.lit');
       },
-      'should set a subid property' : function(err, stanza) {
-        assert.equal(stanza.subid, '123-456');
+      'should set a subID property' : function(err, stanza) {
+        assert.equal(stanza.subID, '123-456');
       },
     },
     
@@ -75,8 +75,8 @@ vows.describe('unsubscribeParser').addBatch({
       'should not set jid property' : function(err, stanza) {
         assert.isUndefined(stanza.jid);
       },
-      'should not set subid property' : function(err, stanza) {
-        assert.isUndefined(stanza.subid);
+      'should not set subID property' : function(err, stanza) {
+        assert.isUndefined(stanza.subID);
       },
     },
     
@@ -154,8 +154,8 @@ vows.describe('unsubscribeParser').addBatch({
       'should not set jid property' : function(err, stanza) {
         assert.isUndefined(stanza.jid);
       },
-      'should not set subid property' : function(err, stanza) {
-        assert.isUndefined(stanza.subid);
+      'should not set subID property' : function(err, stanza) {
+        assert.isUndefined(stanza.subID);
       },
     },
   },
