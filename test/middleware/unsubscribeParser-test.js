@@ -21,7 +21,7 @@ vows.describe('unsubscribeParser').addBatch({
         var self = this;
         var iq = new IQ('pubsub.shakespeare.lit', 'francisco@denmark.lit/barracks', 'set');
         var pubsubEl = new PubSub();
-        var unsubscribeEl = new Unsubscribe('princely_musings', 'francisco@denmark.lit');
+        var unsubscribeEl = new Unsubscribe('princely_musings', 'francisco@denmark.lit', '123-456');
         iq.c(pubsubEl).c(unsubscribeEl);
         iq = iq.toXML();
         iq.type = iq.attrs.type;
@@ -42,6 +42,9 @@ vows.describe('unsubscribeParser').addBatch({
       },
       'should set a jid property' : function(err, stanza) {
         assert.equal(stanza.jid, 'francisco@denmark.lit');
+      },
+      'should set a subid property' : function(err, stanza) {
+        assert.equal(stanza.subid, '123-456');
       },
     },
     
@@ -71,6 +74,9 @@ vows.describe('unsubscribeParser').addBatch({
       },
       'should not set jid property' : function(err, stanza) {
         assert.isUndefined(stanza.jid);
+      },
+      'should not set subid property' : function(err, stanza) {
+        assert.isUndefined(stanza.subid);
       },
     },
     
@@ -147,6 +153,9 @@ vows.describe('unsubscribeParser').addBatch({
       },
       'should not set jid property' : function(err, stanza) {
         assert.isUndefined(stanza.jid);
+      },
+      'should not set subid property' : function(err, stanza) {
+        assert.isUndefined(stanza.subid);
       },
     },
   },
