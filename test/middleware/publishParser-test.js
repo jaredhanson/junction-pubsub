@@ -6,18 +6,18 @@ var StanzaError = require('junction').StanzaError;
 var PubSub = require('junction-pubsub/elements/pubsub');
 var Publish = require('junction-pubsub/elements/publish');
 var Retract = require('junction-pubsub/elements/retract');
-var publish = require('junction-pubsub/middleware/publish');
+var publishParser = require('junction-pubsub/middleware/publishParser');
 
 
-vows.describe('publish').addBatch({
+vows.describe('publishParser').addBatch({
 
   'middleware': {
     topic: function() {
-      return publish();
+      return publishParser();
     },
     
     'when handling a publish request': {
-      topic: function(publish) {
+      topic: function(publishParser) {
         var self = this;
         var iq = new IQ('pubsub.shakespeare.lit', 'hamlet@denmark.lit/blogbot', 'set');
         var pubsubEl = new PubSub();
@@ -30,7 +30,7 @@ vows.describe('publish').addBatch({
           self.callback(err, iq);
         }
         process.nextTick(function () {
-          publish(iq, next)
+          publishParser(iq, next)
         });
       },
       
@@ -43,7 +43,7 @@ vows.describe('publish').addBatch({
     },
     
     'when handling a non-publish request': {
-      topic: function(publish) {
+      topic: function(publishParser) {
         var self = this;
         var iq = new IQ('pubsub.shakespeare.lit', 'hamlet@denmark.lit/blogbot', 'set');
         var pubsubEl = new PubSub();
@@ -56,7 +56,7 @@ vows.describe('publish').addBatch({
           self.callback(err, iq);
         }
         process.nextTick(function () {
-          publish(iq, next)
+          publishParser(iq, next)
         });
       },
       
@@ -69,7 +69,7 @@ vows.describe('publish').addBatch({
     },
     
     'when handling a non-IQ-set publish request': {
-      topic: function(publish) {
+      topic: function(publishParser) {
         var self = this;
         var iq = new IQ('pubsub.shakespeare.lit', 'hamlet@denmark.lit/blogbot', 'get');
         var pubsubEl = new PubSub();
@@ -82,7 +82,7 @@ vows.describe('publish').addBatch({
           self.callback(err, iq);
         }
         process.nextTick(function () {
-          publish(iq, next)
+          publishParser(iq, next)
         });
       },
       
@@ -94,7 +94,7 @@ vows.describe('publish').addBatch({
     },
     
     'when handling an IQ stanza that is not a publish-subscribe stanza': {
-      topic: function(publish) {
+      topic: function(publishParser) {
         var self = this;
         var iq = new IQ('romeo@example.net', 'juliet@example.com', 'get');
         iq = iq.toXML();
@@ -104,7 +104,7 @@ vows.describe('publish').addBatch({
           self.callback(err, iq);
         }
         process.nextTick(function () {
-          publish(iq, next)
+          publishParser(iq, next)
         });
       },
       
