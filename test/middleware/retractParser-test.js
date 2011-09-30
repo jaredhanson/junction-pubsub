@@ -6,18 +6,18 @@ var StanzaError = require('junction').StanzaError;
 var PubSub = require('junction-pubsub/elements/pubsub');
 var Retract = require('junction-pubsub/elements/retract');
 var Publish = require('junction-pubsub/elements/publish');
-var retract = require('junction-pubsub/middleware/retract');
+var retractParser = require('junction-pubsub/middleware/retractParser');
 
 
-vows.describe('retract').addBatch({
+vows.describe('retractParser').addBatch({
 
   'middleware': {
     topic: function() {
-      return retract();
+      return retractParser();
     },
     
     'when handling a retract request': {
-      topic: function(retract) {
+      topic: function(retractParser) {
         var self = this;
         var iq = new IQ('pubsub.shakespeare.lit', 'hamlet@denmark.lit/elsinore', 'set');
         var pubsubEl = new PubSub();
@@ -30,7 +30,7 @@ vows.describe('retract').addBatch({
           self.callback(err, iq);
         }
         process.nextTick(function () {
-          retract(iq, next)
+          retractParser(iq, next)
         });
       },
       
@@ -43,7 +43,7 @@ vows.describe('retract').addBatch({
     },
     
     'when handling a non-retract request': {
-      topic: function(retract) {
+      topic: function(retractParser) {
         var self = this;
         var iq = new IQ('pubsub.shakespeare.lit', 'hamlet@denmark.lit/blogbot', 'set');
         var pubsubEl = new PubSub();
@@ -56,7 +56,7 @@ vows.describe('retract').addBatch({
           self.callback(err, iq);
         }
         process.nextTick(function () {
-          retract(iq, next)
+          retractParser(iq, next)
         });
       },
       
@@ -69,7 +69,7 @@ vows.describe('retract').addBatch({
     },
     
     'when handling a non-IQ-set retract request': {
-      topic: function(retract) {
+      topic: function(retractParser) {
         var self = this;
         var iq = new IQ('pubsub.shakespeare.lit', 'hamlet@denmark.lit/elsinore', 'get');
         var pubsubEl = new PubSub();
@@ -82,7 +82,7 @@ vows.describe('retract').addBatch({
           self.callback(err, iq);
         }
         process.nextTick(function () {
-          retract(iq, next)
+          retractParser(iq, next)
         });
       },
       
@@ -94,7 +94,7 @@ vows.describe('retract').addBatch({
     },
     
     'when handling an IQ stanza that is not a publish-subscribe stanza': {
-      topic: function(retract) {
+      topic: function(retractParser) {
         var self = this;
         var iq = new IQ('romeo@example.net', 'juliet@example.com', 'get');
         iq = iq.toXML();
@@ -104,7 +104,7 @@ vows.describe('retract').addBatch({
           self.callback(err, iq);
         }
         process.nextTick(function () {
-          retract(iq, next)
+          retractParser(iq, next)
         });
       },
       
