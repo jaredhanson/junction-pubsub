@@ -6,14 +6,14 @@ var StanzaError = require('junction').StanzaError;
 var PubSub = require('junction-pubsub/elements/pubsub');
 var Items = require('junction-pubsub/elements/items');
 var Publish = require('junction-pubsub/elements/publish');
-var items = require('junction-pubsub/middleware/items');
+var itemsParser = require('junction-pubsub/middleware/itemsParser');
 
 
-vows.describe('items').addBatch({
+vows.describe('itemsParser').addBatch({
 
   'middleware': {
     topic: function() {
-      return items();
+      return itemsParser();
     },
     
     'when handling an items request': {
@@ -30,7 +30,7 @@ vows.describe('items').addBatch({
           self.callback(err, iq);
         }
         process.nextTick(function () {
-          items(iq, next)
+          itemsParser(iq, next)
         });
       },
       
@@ -43,7 +43,7 @@ vows.describe('items').addBatch({
     },
     
     'when handling a non-items request': {
-      topic: function(items) {
+      topic: function(itemsParser) {
         var self = this;
         var iq = new IQ('pubsub.shakespeare.lit', 'hamlet@denmark.lit/blogbot', 'set');
         var pubsubEl = new PubSub();
@@ -56,7 +56,7 @@ vows.describe('items').addBatch({
           self.callback(err, iq);
         }
         process.nextTick(function () {
-          items(iq, next)
+          itemsParser(iq, next)
         });
       },
       
@@ -69,7 +69,7 @@ vows.describe('items').addBatch({
     },
     
     'when handling a non-IQ-get items request': {
-      topic: function(items) {
+      topic: function(itemsParser) {
         var self = this;
         var iq = new IQ('pubsub.shakespeare.lit', 'francisco@denmark.lit/barracks', 'set');
         var pubsubEl = new PubSub();
@@ -82,7 +82,7 @@ vows.describe('items').addBatch({
           self.callback(err, iq);
         }
         process.nextTick(function () {
-          items(iq, next)
+          itemsParser(iq, next)
         });
       },
       
@@ -94,7 +94,7 @@ vows.describe('items').addBatch({
     },
     
     'when handling an IQ stanza that is not a publish-subscribe stanza': {
-      topic: function(items) {
+      topic: function(itemsParser) {
         var self = this;
         var iq = new IQ('romeo@example.net', 'juliet@example.com', 'get');
         iq = iq.toXML();
@@ -104,7 +104,7 @@ vows.describe('items').addBatch({
           self.callback(err, iq);
         }
         process.nextTick(function () {
-          items(iq, next)
+          itemsParser(iq, next)
         });
       },
       
