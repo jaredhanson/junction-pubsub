@@ -17,5 +17,17 @@ vows.describe('Retract').addBatch({
       assert.equal(retract.toXML().toString(), '<retract node="princely_musings" xmlns="http://jabber.org/protocol/pubsub"/>');
     },
   },
+  
+  'when a notify attribute is set': {
+    topic: function() {
+      var retract = new Retract('princely_musings');
+      retract.notify = true;
+      return retract;
+    },
+    
+    'should build correct XML string': function(retract) {
+      assert.equal(retract.toXML().toString(), '<retract node="princely_musings" notify="true" xmlns="http://jabber.org/protocol/pubsub"/>');
+    },
+  },
 
 }).export(module);
