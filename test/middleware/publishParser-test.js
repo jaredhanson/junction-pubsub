@@ -68,7 +68,7 @@ vows.describe('publishParser').addBatch({
       },
     },
     
-    'when handling a non-IQ-set publish request': {
+    'when handling an IQ-get publish request': {
       topic: function(publishParser) {
         var self = this;
         var iq = new IQ('pubsub.shakespeare.lit', 'hamlet@denmark.lit/blogbot', 'get');
@@ -90,6 +90,57 @@ vows.describe('publishParser').addBatch({
         assert.instanceOf(err, StanzaError);
         assert.equal(err.type, 'modify');
         assert.equal(err.condition, 'bad-request');
+      },
+    },
+    
+    'when handling a publish request without a node attribute': {
+      topic: function(publishParser) {
+        var self = this;
+        var iq = new IQ('pubsub.shakespeare.lit', 'hamlet@denmark.lit/blogbot', 'set');
+        var pubsubEl = new PubSub();
+        var publishEl = new Publish();
+        iq.c(pubsubEl).c(publishEl);
+        iq = iq.toXML();
+        iq.type = iq.attrs.type;
+        
+        function next(err) {
+          self.callback(err, iq);
+        }
+        process.nextTick(function () {
+          publishParser(iq, next)
+        });
+      },
+      
+      'should indicate an error' : function(err, stanza) {
+        assert.instanceOf(err, StanzaError);
+        assert.equal(err.type, 'modify');
+        assert.equal(err.condition, 'bad-request');
+      },
+    },
+    
+    'when handling a publish result': {
+      topic: function(publishParser) {
+        var self = this;
+        var iq = new IQ('pubsub.shakespeare.lit', 'hamlet@denmark.lit/blogbot', 'result');
+        var pubsubEl = new PubSub();
+        var publishEl = new Publish('princely_musings');
+        iq.c(pubsubEl).c(publishEl);
+        iq = iq.toXML();
+        iq.type = iq.attrs.type;
+        
+        function next(err) {
+          self.callback(err, iq);
+        }
+        process.nextTick(function () {
+          publishParser(iq, next)
+        });
+      },
+      
+      'should not set action property' : function(err, stanza) {
+        assert.isUndefined(stanza.action);
+      },
+      'should not set node property' : function(err, stanza) {
+        assert.isUndefined(stanza.node);
       },
     },
     
