@@ -15,6 +15,9 @@ vows.describe('Component').addBatch({
     'should have an publish function': function (c) {
       assert.isFunction(c.publish);
     },
+    'should have an retract function': function (c) {
+      assert.isFunction(c.retract);
+    },
     'should have an subscribe function': function (c) {
       assert.isFunction(c.subscribe);
     },
