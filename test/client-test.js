@@ -47,6 +47,7 @@ vows.describe('Client').addBatch({
     },
     'should have correct properties on stanza': function (err, stanza) {
       assert.equal(stanza.node, 'princely_musings');
+      assert.isUndefined(stanza.itemID);
     },
   },
   
@@ -71,6 +72,7 @@ vows.describe('Client').addBatch({
     },
     'should have correct properties on stanza': function (err, stanza) {
       assert.equal(stanza.node, 'princely_musings');
+      assert.isUndefined(stanza.itemID);
     },
   },
   
@@ -95,7 +97,7 @@ vows.describe('Client').addBatch({
     },
     'should have correct properties on stanza': function (err, stanza) {
       assert.equal(stanza.node, 'princely_musings');
-      assert.isUndefined(stanza.params.id);
+      assert.isUndefined(stanza.itemID);
     },
   },
   
@@ -103,7 +105,7 @@ vows.describe('Client').addBatch({
     topic: function() {
       var self = this;
       var client = new Client({ jid: 'pubsub.shakespeare.lit', disableStream: true });
-      client.publish('princely_musings/:id', function(req, res, next) {
+      client.publish('princely_musings', function(req, res, next) {
         self.callback(null, req);
       });
       process.nextTick(function () {
@@ -121,7 +123,7 @@ vows.describe('Client').addBatch({
     },
     'should have correct properties on stanza': function (err, stanza) {
       assert.equal(stanza.node, 'princely_musings');
-      assert.equal(stanza.params.id, 'bnd81g37d61f49fgn581');
+      assert.equal(stanza.itemID, 'bnd81g37d61f49fgn581');
     },
   },
   
@@ -129,7 +131,7 @@ vows.describe('Client').addBatch({
     topic: function() {
       var self = this;
       var client = new Client({ jid: 'pubsub.shakespeare.lit', disableStream: true });
-      client.retract('princely_musings/:id', function(req, res, next) {
+      client.retract('princely_musings', function(req, res, next) {
         self.callback(null, req);
       });
       process.nextTick(function () {
@@ -147,7 +149,7 @@ vows.describe('Client').addBatch({
     },
     'should have correct properties on stanza': function (err, stanza) {
       assert.equal(stanza.node, 'princely_musings');
-      assert.equal(stanza.params.id, 'ae890ac52d0df67ed7cfdf51b644e901');
+      assert.equal(stanza.itemID, 'ae890ac52d0df67ed7cfdf51b644e901');
     },
   },
   
