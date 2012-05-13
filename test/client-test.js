@@ -2,9 +2,10 @@ var vows = require('vows');
 var assert = require('assert');
 var junction = require('junction');
 var util = require('util');
-var Client = require('junction-pubsub/client');
+//var Client = require('junction-pubsub/client');
 
 
+/*
 vows.describe('Client').addBatch({
   
   'initialization': {
@@ -154,3 +155,4 @@ vows.describe('Client').addBatch({
   },
   
 }).export(module);
+*/

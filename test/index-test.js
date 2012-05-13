@@ -2,9 +2,10 @@ var vows = require('vows');
 var assert = require('assert');
 var junction = require('junction');
 var pubsub = require('junction-pubsub');
-var util = require('util');
+//var util = require('util');
 
 
+/*
 vows.describe('Module').addBatch({
   
   'create connection with client type': {
@@ -28,3 +29,4 @@ vows.describe('Module').addBatch({
   },
   
 }).export(module);
+*/

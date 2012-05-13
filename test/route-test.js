@@ -44,7 +44,7 @@ vows.describe('Route').addBatch({
     },
     'should match a null node': function (route) {
       assert.isArray(route.match(null));
-      assert.length(route.match(null), 0);
+      assert.lengthOf(route.match(null), 0);
     },
     'should not match a node': function (route) {
       assert.isNull(route.match('node'));
