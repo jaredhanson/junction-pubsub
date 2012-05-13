@@ -2,15 +2,30 @@
   "name": "junction-pubsub",
   "version": "0.0.0",
   "description": "Publish-Subscribe development framework for Junction.",
-  "author": "Jared Hanson <jaredhanson@gmail.com> (http://www.jaredhanson.net/)",
+  "keywords": ["junction", "xmpp", "jabber", "pubsub", "xep0060"],
   "repository": {
     "type": "git",
-    "url": "http://github.com/jaredhanson/junction-pubsub.git"
+    "url": "git://github.com/jaredhanson/junction-pubsub.git"
   },
+  "bugs": {
+    "url": "http://github.com/jaredhanson/junction-pubsub/issues"
+  },
+  "author": { "name": "Jared Hanson", "email": "jaredhanson@gmail.com", "url": "http://www.jaredhanson.net/" },
+  "licenses": [ {
+    "type": "MIT",
+    "url": "http://www.opensource.org/licenses/MIT" 
+  } ],
   "main": "./lib/junction-pubsub",
   "dependencies": {
-    "junction": ">= 0.1.0"
+    "pkginfo": "0.2.x",
+    "junction": "0.2.x",
+    "debug": "0.7.x"
   },
-  "engines": { "node": ">= 0.4.0" },
-  "keywords": ["junction", "pubsub", "xmpp", "jabber", "xep0060"]
+  "devDependencies": {
+    "vows": "0.6.x"
+  },
+  "scripts": {
+    "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js test/**/*-test.js"
+  },
+  "engines": { "node": ">= 0.4.0" }
 }
