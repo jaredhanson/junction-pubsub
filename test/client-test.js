@@ -1,5 +1,6 @@
 var vows = require('vows');
 var assert = require('assert');
+var events = require('events');
 var junction = require('junction');
 var util = require('util');
 var pubsub = require('junction-pubsub/index');
@@ -36,32 +37,40 @@ vows.describe('application').addBatch({
     },
   },
   
-  /*
-  
   'routing a subscribe request to a node': {
     topic: function() {
       var self = this;
-      var client = new Client({ jid: 'pubsub.shakespeare.lit', disableStream: true });
-      client.subscribe('princely_musings', function(req, res, next) {
-        self.callback(null, req);
+      var connection = new events.EventEmitter();
+      var app = pubsub();
+      app.setup(connection);
+      app.subscribe('princely_musings', function(req, res, next) {
+        self.callback(null, req, res);
       });
       process.nextTick(function () {
         var iq = new junction.elements.IQ('pubsub.shakespeare.lit', 'francisco@denmark.lit/barracks', 'set');
         iq.id = '1';
         iq.c('pubsub', { xmlns: 'http://jabber.org/protocol/pubsub' })
           .c('subscribe', { node: 'princely_musings', jid: 'francisco@denmark.lit' });
-        client.emit('stanza', iq.toXML());
+        connection.emit('stanza', iq.toXML());
       });
     },
     
-    'should dispatch a request': function (err, stanza) {
-      assert.isNotNull(stanza);
+    'should dispatch a request': function (err, req, res) {
+      assert.isNotNull(req);
     },
-    'should have correct properties on stanza': function (err, stanza) {
-      assert.equal(stanza.node, 'princely_musings');
-      assert.isUndefined(stanza.itemID);
+    'should have correct properties on stanza': function (err, req) {
+      assert.equal(req.action, 'subscribe');
+      assert.equal(req.node, 'princely_musings');
+      assert.isUndefined(req.itemID);
+    },
+    'should prepare response': function (err, req, res) {
+      assert.equal(res.name, 'iq');
+      assert.equal(res.attrs.id, '1');
+      assert.equal(res.attrs.type, 'result');
     },
   },
+  
+  /*
   
   'routing an unsubscribe request to a node': {
     topic: function() {
