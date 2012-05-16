@@ -9,6 +9,35 @@ Junction/PubSub architecture is modeled upon the proven pairing of
 [Connect](http://www.senchalabs.org/connect/) + [Express](http://expressjs.com/),
 making development of XMPP applications as simple as that of web applications.
 
+## Usage
+
+#### Create an Application
+
+To create a new application, simply invoke `pubsub()`.
+
+    var app = pubsub();
+
+#### Routing
+
+Junction/PubSub uses the name of the `<pubsub/>` child element to provide a
+routing API.  For example, an entity may wish to publish to a node:
+
+    app.publish('princely_musings', function(req, res, next) {
+      // publish item
+    });
+
+#### Mount and Connect to XMPP Network
+
+Publish-Subscribe is a protocol that runs over XMPP, along side other extension
+protocols.  Because of this, the pub-sub `app` is typically mounted as a sub-app
+of larger XMPP application.
+
+    var xmpp = junction()
+      .use(junction.logger())
+      .use(app);  // use pubsub app in larger XMPP app
+
+    xmpp.connect({ jid: 'user@jabber.org', password: 's3cr3t' });
+
 ## Tests
 
     $ npm install --dev
