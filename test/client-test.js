@@ -2,30 +2,41 @@ var vows = require('vows');
 var assert = require('assert');
 var junction = require('junction');
 var util = require('util');
-//var Client = require('junction-pubsub/client');
+var pubsub = require('junction-pubsub/index');
 
 
-/*
-vows.describe('Client').addBatch({
+vows.describe('application').addBatch({
   
   'initialization': {
     topic: function() {
-      return new Client({ jid: 'user@invalid.host', disableStream: true });
+      return pubsub();
     },
     
-    'should have an publish function': function (c) {
-      assert.isFunction(c.publish);
-    },
-    'should have an retract function': function (c) {
-      assert.isFunction(c.retract);
-    },
     'should have an subscribe function': function (c) {
       assert.isFunction(c.subscribe);
     },
     'should have an unsubscribe function': function (c) {
       assert.isFunction(c.unsubscribe);
     },
+    'should have an items function': function (c) {
+      assert.isFunction(c.items);
+    },
+    'should have an publish function': function (c) {
+      assert.isFunction(c.publish);
+    },
+    'should have an retract function': function (c) {
+      assert.isFunction(c.retract);
+    },
+    'should have an item function': function (c) {
+      assert.isFunction(c.item);
+    },
+    'should have implicit middleware': function (app) {
+      assert.lengthOf(app._stack, 5);
+      assert.lengthOf(app._filters, 0);
+    },
   },
+  
+  /*
   
   'routing a subscribe request to a node': {
     topic: function() {
@@ -153,6 +164,6 @@ vows.describe('Client').addBatch({
       assert.equal(stanza.itemID, 'ae890ac52d0df67ed7cfdf51b644e901');
     },
   },
+  */
   
 }).export(module);
-*/
