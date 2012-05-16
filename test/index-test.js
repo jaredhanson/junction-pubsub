@@ -1,32 +1,28 @@
 var vows = require('vows');
 var assert = require('assert');
-var junction = require('junction');
 var pubsub = require('junction-pubsub');
-//var util = require('util');
 
 
-/*
-vows.describe('Module').addBatch({
+vows.describe('junction-pubsub').addBatch({
   
-  'create connection with client type': {
-    topic: function() {
-      return new pubsub.createConnection({ type: 'client', jid: 'user@invalid.host', disableStream: true });
-    },
-    
-    'should be an instance of Client': function (c) {
-      assert.instanceOf(c, pubsub.Client);
-    },
+  'should export version': function() {
+    assert.isString(pubsub.version);
   },
   
-  'create connection with component type': {
-    topic: function() {
-      return new pubsub.createConnection({ type: 'component', jid: 'component.invalid.host', host: 'invalid.host', port: 5060, disableStream: true });
-    },
-    
-    'should be an instance of Component': function (c) {
-      assert.instanceOf(c, pubsub.Component);
-    },
+  'should export create function': function() {
+    assert.isFunction(pubsub);
+    assert.isFunction(pubsub.create);
+    assert.equal(pubsub, pubsub.create);
+  },
+  
+  'should export elements': function() {
+    assert.isFunction(pubsub.elements.PubSub);
+    assert.isFunction(pubsub.elements.Subscribe);
+    assert.isFunction(pubsub.elements.Unsubscribe);
+    assert.isFunction(pubsub.elements.Items);
+    assert.isFunction(pubsub.elements.Publish);
+    assert.isFunction(pubsub.elements.Retract);
+    assert.isFunction(pubsub.elements.Item);
   },
   
 }).export(module);
-*/
