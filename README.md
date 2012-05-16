@@ -3,6 +3,17 @@
 Fast and light XMPP Publish-Subscribe framework built on [Node](http://nodejs.org)
 and [Junction](http://github.com/jaredhanson/junction).
 
+## Tests
+
+    $ npm install --dev
+    $ make test
+
+[![Build Status](https://secure.travis-ci.org/jaredhanson/junction-pubsub.png)](http://travis-ci.org/jaredhanson/junction-pubsub)
+
+## Credits
+
+  - [Jared Hanson](http://github.com/jaredhanson)
+
 ## License
 
 (The MIT License)
