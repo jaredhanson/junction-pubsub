@@ -4,7 +4,7 @@
 framework for [Node](http://nodejs.org), built on [Junction](http://github.com/jaredhanson/junction).
 
 Junction/PubSub is a minimalist framework layered on top of Junction, providing
-robust tooling to applications that need publish-subscribe functionality  The
+robust tooling to applications that need publish-subscribe functionality.  The
 Junction/PubSub architecture is modeled upon the proven pairing of
 [Connect](http://www.senchalabs.org/connect/) + [Express](http://expressjs.com/),
 making development of XMPP applications as simple as that of web applications.
