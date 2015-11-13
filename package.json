@@ -1,6 +1,6 @@
 {
   "name": "junction-pubsub",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Publish-Subscribe development framework for Junction.",
   "keywords": ["junction", "xmpp", "jabber", "pubsub", "xep0060"],
   "repository": {
